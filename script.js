@@ -1,7 +1,7 @@
 const letters = [
   {
-  date: "June 16, 2026 — 1:12 AM",
-  text: "Write whatever you feel here.\nNew lines work naturally.\nShe’ll see this instantly."
+    date: "June 16, 2026 — 1:12 AM",
+    text: "Write whatever you feel here.\nNew lines work naturally.\nShe’ll see this instantly."
 },
 
   {
