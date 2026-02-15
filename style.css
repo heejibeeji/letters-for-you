@@ -1,44 +1,126 @@
+:root {
+  --bg: #0e0e0e;
+  --card: #f5f1e8;
+  --accent: #c6a664;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  background: linear-gradient(120deg, #0f0f0f, #1c1c1c);
-  font-family: 'Georgia', serif;
-  color: #f5f5f5;
+  background: var(--bg);
+  color: #111;
+  font-family: 'Special Elite', cursive;
 }
 
-.container {
-  max-width: 800px;
-  margin: auto;
-  padding: 60px 20px;
-}
-
-h1 {
+/* HEADER */
+header {
   text-align: center;
+  padding: 40px 20px;
+  color: var(--card);
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
   font-size: 3rem;
-  letter-spacing: 2px;
+  margin-bottom: 10px;
 }
 
-.subtitle {
-  text-align: center;
-  color: #b5b5b5;
-  margin-bottom: 50px;
+header p {
+  color: #ccc;
 }
 
-.letter {
-  background: rgba(255,255,255,0.05);
-  border-radius: 12px;
+/* LAYOUT */
+.layout {
+  display: flex;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* SIDEBAR */
+aside {
+  width: 220px;
+  color: var(--card);
+}
+
+.month {
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.month span {
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+/* CONTENT */
+main {
+  flex: 1;
+}
+
+.letter-card {
+  background: var(--card);
   padding: 25px;
-  margin-bottom: 30px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
 
 .date {
-  font-size: 0.9rem;
-  color: #aaa;
-  margin-bottom: 15px;
+  color: #777;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
 }
 
-.text {
-  line-height: 1.8;
-  font-size: 1.05rem;
-  white-space: pre-line;
+.preview {
+  line-height: 1.7;
+}
+
+.read-more {
+  color: var(--accent);
+  cursor: pointer;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+/* FULL LETTER */
+.full-letter {
+  background: var(--card);
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.back {
+  color: var(--accent);
+  cursor: pointer;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 30px;
+  color: var(--card);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  aside {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+  }
+
+  .month {
+    white-space: nowrap;
+  }
 }
