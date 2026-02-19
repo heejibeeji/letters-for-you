@@ -33,20 +33,23 @@ const letters = [
   }
 ];
 
-// ----- UTILITIES -----
+const LETTERS_PER_PAGE = 5;
+let currentPage = 1;
+
+// sort newest first
 letters.sort((a, b) => new Date(b.date) - new Date(a.date));
 
 const content = document.getElementById("content");
 const sidebar = document.getElementById("sidebar");
 
-// ----- SIDEBAR -----
+// ---------- SIDEBAR ----------
 const months = {};
-
 letters.forEach(l => {
   const month = new Date(l.date).toLocaleString('default', { month: 'long' });
   months[month] = (months[month] || 0) + 1;
 });
 
+sidebar.innerHTML = "";
 Object.keys(months).forEach(m => {
   const div = document.createElement("div");
   div.className = "month";
@@ -55,40 +58,84 @@ Object.keys(months).forEach(m => {
   sidebar.appendChild(div);
 });
 
-// ----- HOME VIEW -----
-function showHome(list = letters.slice(0, 5)) {
+// ---------- HOME VIEW ----------
+function showHome(list = letters, page = 1) {
+  currentPage = page;
   content.innerHTML = "";
-  list.forEach(l => {
+
+  const start = (page - 1) * LETTERS_PER_PAGE;
+  const end = start + LETTERS_PER_PAGE;
+  const pageLetters = list.slice(start, end);
+
+  pageLetters.forEach(l => {
     const card = document.createElement("div");
     card.className = "letter-card";
     card.innerHTML = `
-      <div class="date">${l.date}</div>
-      <div class="preview">${l.text.slice(0, 150)}...</div>
+      <div class="date">${formatDate(l.date)}</div>
+      <div class="preview">${l.text.slice(0, 160)}...</div>
       <div class="read-more">Read more</div>
     `;
     card.querySelector(".read-more").onclick = () => showFull(l);
     content.appendChild(card);
   });
+
+  addPagination(list.length);
 }
 
-// ----- FULL LETTER -----
+// ---------- PAGINATION ----------
+function addPagination(totalLetters) {
+  const totalPages = Math.ceil(totalLetters / LETTERS_PER_PAGE);
+  if (totalPages <= 1) return;
+
+  const nav = document.createElement("div");
+  nav.className = "pagination";
+
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement("span");
+    btn.textContent = i;
+    btn.className = i === currentPage ? "active" : "";
+    btn.onclick = () => showHome(letters, i);
+    nav.appendChild(btn);
+  }
+
+  content.appendChild(nav);
+}
+
+// ---------- FULL LETTER ----------
 function showFull(letter) {
+  document.body.classList.add("reading");
+
   content.innerHTML = `
     <div class="full-letter">
       <div class="back">← Back</div>
-      <div class="date">${letter.date}</div>
-      <div>${letter.text}</div>
+      <div class="date">${formatDate(letter.date)}</div>
+      <div class="full-text">${letter.text}</div>
     </div>
   `;
-  content.querySelector(".back").onclick = () => showHome();
+
+  content.querySelector(".back").onclick = () => {
+    document.body.classList.remove("reading");
+    showHome(letters, currentPage);
+  };
 }
 
-// ----- FILTER BY MONTH -----
+// ---------- FILTER BY MONTH ----------
 function showMonth(month) {
   const filtered = letters.filter(l =>
     new Date(l.date).toLocaleString('default', { month: 'long' }) === month
   );
-  showHome(filtered);
+  showHome(filtered, 1);
+}
+
+// ---------- DATE FORMAT ----------
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit'
+  });
 }
 
 // INIT
