@@ -91,6 +91,7 @@ main {
   background: var(--card);
   padding: 30px;
   border-radius: 12px;
+  white-space: pre-line;
 }
 
 .back {
