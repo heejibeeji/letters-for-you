@@ -79,6 +79,11 @@ main {
   line-height: 1.7;
 }
 
+.preview,
+.full-text {
+  white-space: pre-line;
+}
+
 .read-more {
   color: var(--accent);
   cursor: pointer;
@@ -125,3 +130,41 @@ footer {
     white-space: nowrap;
   }
 }
+/* PAGINATION */
+.pagination {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.pagination span {
+  margin: 0 6px;
+  cursor: pointer;
+  color: var(--accent);
+}
+
+.pagination .active {
+  text-decoration: underline;
+}
+
+/* READING MODE */
+body.reading aside {
+  width: 60px;
+  opacity: 0.4;
+}
+
+body.reading main {
+  display: flex;
+  justify-content: center;
+}
+
+body.reading .full-letter {
+  max-width: 700px;
+}
+
+/* MOBILE READING MODE */
+@media (max-width: 768px) {
+  body.reading aside {
+    display: none;
+  }
+}
+
