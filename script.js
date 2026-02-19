@@ -1,7 +1,18 @@
 const letters = [
   {
     date: "2026-02-14 11:42 PM",
-    text: "This was written on a quiet night. I was thinking about how love feels when it’s patient, warm, and honest..."
+    text: "My Dearest Martha,
+
+How are you? I truly hope you’re doing as well as I am—because honestly, I’ve never been happier.
+
+I’m still smiling because of what happened yesterday. To be able to call you mine after all this time is a dream I never thought would actually come true. But it did. We finally ended up together, right on the doorstep of Valentine’s week, and I want to celebrate every single second of it.
+
+I bought a rose for you today. It’s just one, but please know that in my heart, I’m handing you a bouquet so large I can barely carry it. Every petal represents a moment I missed you over these last few months and a reason why I’m grateful you’re in my life now.
+
+I wish you were here so I could see your smile when you hold it. I’ve missed you more than words can say, but knowing we are "us" now makes the distance so much easier to bear.
+
+Yours,
+Love 
   },
   {
     date: "2026-02-10 01:12 AM",
