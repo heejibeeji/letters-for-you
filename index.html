@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Letter from Love</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <h1>Letter from Love</h1>
+  <p>Every word here was written with you in mind.</p>
+  <button id="writeLetterBtn" class="write-letter-btn">✉️ Write a Letter</button>
+</header>
+
+<div class="layout">
+
+  <aside id="sidebar">
+    <!-- Months will be injected here -->
+  </aside>
+
+  <main id="content">
+    <!-- Letters will appear here -->
+  </main>
+
+</div>
+
+<footer>
+  I love you more
+</footer>
+
+<!-- Write Letter Modal -->
+<div id="letterModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Write Your Letter</h2>
+      <button class="close-btn">&times;</button>
+    </div>
+    <div id="messageContainer"></div>
+    <form id="letterForm">
+      <div class="form-group">
+        <label for="authorName">Your Name</label>
+        <input type="text" id="authorName" placeholder="Enter your name" required>
+      </div>
+      <div class="form-group">
+        <label for="letterContent">Your Letter</label>
+        <textarea id="letterContent" placeholder="Write your letter here..." required></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-cancel">Cancel</button>
+        <button type="submit" class="btn btn-send" id="sendBtn">Send Letter</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
