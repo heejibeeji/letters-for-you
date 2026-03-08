@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Letter from Love</title>
+
+  <!-- Premium Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Lora:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-content">
+    <h1>Letter from Love</h1>
+    <p>Every word here was written with you in mind.</p>
+  </div>
+</header>
+
+<!-- WRITE LETTER SECTION -->
+<section class="write-letter-section">
+  <div class="container">
+    <button id="writeLetterBtn" class="write-letter-btn">✉️ Write a Letter</button>
+  </div>
+</section>
+
+<!-- FILTER TABS -->
+<section class="filter-section">
+  <div class="container">
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">Home</button>
+      <button class="filter-tab" data-filter="him">From Him</button>
+      <button class="filter-tab" data-filter="her">From Her</button>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="layout">
+  <aside id="sidebar" class="sidebar">
+    <!-- Months will be injected here -->
+  </aside>
+
+  <main id="content" class="content">
+    <!-- Letters will appear here -->
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  I love you more
+</footer>
+
+<!-- WRITE LETTER MODAL -->
+<div id="letterModal" class="modal">
+  <div class="modal-content">
+    <button class="modal-close">&times;</button>
+    
+    <div class="modal-header">
+      <h2>Write Your Letter</h2>
+      <p>Share your feelings with love</p>
+    </div>
+
+    <div id="messageContainer"></div>
+
+    <form id="letterForm" class="letter-form">
+      <div class="form-group">
+        <label for="letterContent">Your Letter</label>
+        <textarea id="letterContent" placeholder="Write your heart out here..." required></textarea>
+        <div class="char-count">
+          <span id="charCount">0</span> / 5000
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="verificationAnswer">Who is your love?</label>
+        <input 
+          type="text" 
+          id="verificationAnswer" 
+          placeholder="Answer the question to verify" 
+          required
+        >
+        <small>This helps us know who you are</small>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel">Cancel</button>
+        <button type="submit" class="btn btn-send">Send Letter</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

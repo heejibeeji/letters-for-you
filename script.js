@@ -1,0 +1,396 @@
+// ========== FIREBASE INITIALIZATION ==========
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, where } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBe74itrvp5DrvDOEBJP9lRw0Jw82NspxQ",
+  authDomain: "letters-for-you-669f8.firebaseapp.com",
+  projectId: "letters-for-you-669f8",
+  storageBucket: "letters-for-you-669f8.firebasestorage.app",
+  messagingSenderId: "694046209763",
+  appId: "1:694046209763:web:8b7560418cca10cbb8b7d6",
+  measurementId: "G-ZEPT4R4JNE"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ========== ORIGINAL LETTERS DATA ==========
+const originalLetters = [
+  {
+    date: "2026-02-14 09:00 AM",
+    text: "My dearest Martha,\n\nI wish you our very first Happy Valentine's Day. I hope this is just the beginning—that we get to celebrate many more of these days together throughout our lives.\n\nDo you know how lucky I am to have you? Do you know how happy I feel knowing you're by my side? You are my long-cherished dream, and not everyone gets to live their dream. I truly feel blessed.\n\nI know you were upset that I didn't wish you at the very first hour of Valentine's Day, and you have every right to feel that way. I'm truly sorry. The truth is, I've been wanting to write you this letter since the very day we became together. I just never found the right moment. Yesterday, being at home, I couldn't write to you properly, and I sincerely apologize for that. I hope you understand.\n\nI had dreamed of writing you special letters for each day of Valentine's week and sending them all together. But when you told me you didn't have personal space at home and that your family might find out about us, I knew I had to find another way.\n\nSo today, I'm writing this—to tell you how deeply I love you.\n\nI dedicate all my favorite romantic songs to you. Every time I listen to them, your face appears in my mind without fail. You mean more to me than words can fully express.\n\nWith all my heart, I declare that I love you—and I promise to keep loving you, always.\n\nYours,\nLove",
+    from: "him"
+  },
+  {
+    date: "2026-02-13 09:00 AM",
+    text: "My dearest Martha,\n\nWe're getting closer to the big day, but today is for something a little more... electric.\n\nI promised you a few days ago that I'd kiss you a lot 🫣, and I meant every word. On Kiss Day, I'm dreaming of the moment our lips finally meet for the first time since we became \"us\" on February 6th.\n\nI want my kisses to tell you everything I can't find the words for—how much I adore you, how much I've missed you, and how deeply I love you. Consider this letter a \"placeholder\" for the thousands of real kisses I have saved up just for you.\n\nYours,\nLove",
+    from: "him"
+  },
+  {
+    date: "2026-02-12 09:00 AM",
+    text: "My dearest Martha,\n\nI've spent so many of these last few months wishing you were standing right in front of me. On Hug Day, that wish feels even stronger.\n\nIf I were there, I wouldn't just give you a quick hug; I'd hold you so tight that you could feel my heart beating against yours—reminding you that I'm never letting go. A hug from you is the only \"home\" I ever want to know.\n\nUntil I can actually wrap my arms around you, please feel the warmth of this letter and know that I am holding you in my thoughts every single second.\n\nYours,\nLove",
+    from: "him"
+  },
+  {
+    date: "2026-02-11 09:00 AM",
+    text: "My dearest Martha,\n\nToday is Promise Day, but for me, it's much more than a date on a calendar. It's a day to tell you exactly the kind of man I intend to be for you. We finally found each other on February 6th, and I want to make sure I never give you a reason to doubt us.\n\nI promise you this, from the bottom of my heart: I will love you forever, and my love for you will never decrease; it will only grow. I will marry you and build a life where you are always my first priority. I will be established and more disciplined, working hard to create the future you deserve. I'll listen to you with my heart and adore you in every possible way. I will say \"no\" to anyone else because my heart only has room for you. And for us, I'm changing: I will never touch a cigarette again, and I'm leaving all my bad habits behind to be the man you can be proud of.\n\nMost importantly, I promise I will make you happy and I will never, ever leave you. (I also have one more very specific promise... I'm going to kiss you a lot when I finally see you! 🫣)\n\nHolding you to these words forever.\n\nYours,\nLove",
+    from: "him"
+  },
+  {
+    date: "2026-02-10 09:00 AM",
+    text: "My dearest Martha,\n\nSince I can't be there to give you a hug myself today, I'm sending you all my warmth in this letter. I wish I could be your teddy bear—someone you could just lean on and hold whenever you miss me.\n\nYou are my comfort and my happy place. Until I can finally hold you in my arms again, just know that my heart is always wrapped around yours.\n\nSending you the biggest hug.\n\nYours,\nLove",
+    from: "him"
+  },
+  {
+    date: "2026-02-09 09:00 AM",
+    text: "My dearest Martha,\n\nAfter the big questions I asked you yesterday, I wanted to bring things back to something sweet. Today is Chocolate Day, and honestly, it's the perfect excuse to tell you how much flavor you've added to my life.\n\nI wish I could be there to hand-deliver a box of your favorites. I'd pick the ones that remind me of you—sweet, a little bit addictive, and something I never want to run out of. Life was a bit bitter during those months we were apart, but ever since February 6th, everything has tasted a whole lot better.\n\nYou are the sweetness in my every day. Even if we aren't sharing a box of chocolates side-by-side right now, just knowing you are mine is enough to keep me smiling.\n\nEat something sweet for me today, okay? Because nobody deserves a treat more than you.\n\nI love you more than words (and definitely more than chocolate).\n\nYours,\nLove",
+    from: "him"
+  },
+  {
+    date: "2026-02-08 09:00 AM",
+    text: "My dearest Martha,\n\nIn heaven and earth will you be mine? Will you marry me? I hereby declare that I'll be with you in everything. My life is yours. All of it.\n\nWill you be with me? Will you live the rest of your life with me? I'll love you as much as you dream of being loved—even more than you'd want to be loved.\n\nMeeting you was like destiny. Don't turn this into something we both regret. Will you be mine? I want to be yours.\n\nYours,\nLove",
+    from: "him"
+  },
+  {
+    date: "2026-02-07 09:00 AM",
+    text: "My Dearest Martha,\n\nHow are you? I truly hope you're doing as well as I am—because honestly, I've never been happier.\n\nI'm still smiling because of what happened yesterday. To be able to call you mine after all this time is a dream I never thought would actually come true. But it did. We finally ended up together, right on the doorstep of Valentine's week, and I want to celebrate every single second of it.\n\nI bought a rose for you today. It's just one, but please know that in my heart, I'm handing you a bouquet so large I can barely carry it. Every petal represents a moment I missed you over these last few months and a reason why I'm grateful you're in my life now.\n\nI wish you were here so I could see your smile when you hold it. I've missed you more than words can say, but knowing we are \"us\" now makes the distance so much easier to bear.\n\nYours,\nLove",
+    from: "him"
+  }
+];
+
+// ========== GLOBAL VARIABLES ==========
+const LETTERS_PER_PAGE = 5;
+let currentPage = 1;
+let allLetters = [];
+let currentFilter = 'all';
+let firebaseLetters = [];
+
+// ========== DOM ELEMENTS ==========
+const content = document.getElementById("content");
+const sidebar = document.getElementById("sidebar");
+const modal = document.getElementById("letterModal");
+const writeLetterBtn = document.getElementById("writeLetterBtn");
+const letterForm = document.getElementById("letterForm");
+const filterTabs = document.querySelectorAll(".filter-tab");
+const charCount = document.getElementById("charCount");
+const letterContent = document.getElementById("letterContent");
+
+// ========== UTILITY FUNCTIONS ==========
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
+}
+
+function getMonth(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleString('default', { month: 'long' });
+}
+
+function showMessage(message, type) {
+  const messageContainer = document.getElementById("messageContainer");
+  const messageClass = type === "success" ? "success" : "error";
+  messageContainer.innerHTML = `<div class="message ${messageClass}">${message}</div>`;
+  
+  if (type === "success") {
+    setTimeout(() => {
+      messageContainer.innerHTML = "";
+    }, 3000);
+  }
+}
+
+// ========== MODAL FUNCTIONS ==========
+function openModal() {
+  modal.style.display = "block";
+  document.body.style.overflow = "hidden";
+  letterContent.focus();
+}
+
+function closeModal() {
+  modal.style.display = "none";
+  document.body.style.overflow = "auto";
+  letterForm.reset();
+  document.getElementById("messageContainer").innerHTML = "";
+  charCount.textContent = "0";
+}
+
+// ========== CHARACTER COUNT ==========
+letterContent.addEventListener("input", () => {
+  charCount.textContent = letterContent.value.length;
+  if (letterContent.value.length > 5000) {
+    letterContent.value = letterContent.value.substring(0, 5000);
+    charCount.textContent = "5000";
+  }
+});
+
+// ========== FIREBASE FUNCTIONS ==========
+async function submitLetter(event) {
+  event.preventDefault();
+
+  const letterText = document.getElementById("letterContent").value.trim();
+  const verificationAnswer = document.getElementById("verificationAnswer").value.trim().toLowerCase();
+  const sendBtn = document.querySelector(".btn-send");
+
+  if (!letterText) {
+    showMessage("Please write your letter", "error");
+    return;
+  }
+
+  if (!verificationAnswer) {
+    showMessage("Please answer the verification question", "error");
+    return;
+  }
+
+  // Determine who is writing
+  let from = null;
+  if (verificationAnswer === "shakib") {
+    from = "her";
+  } else if (verificationAnswer === "neelima") {
+    from = "him";
+  } else {
+    showMessage("Incorrect answer. Please try again.", "error");
+    return;
+  }
+
+  sendBtn.disabled = true;
+  sendBtn.innerHTML = '<span class="loading"></span> Sending...';
+
+  try {
+    await addDoc(collection(db, "letters"), {
+      content: letterText,
+      from: from,
+      createdAt: new Date(),
+      timestamp: new Date().getTime()
+    });
+
+    showMessage("Letter sent successfully! 💕", "success");
+    letterForm.reset();
+    charCount.textContent = "0";
+
+    setTimeout(() => {
+      closeModal();
+      loadFirebaseLetters();
+    }, 1500);
+  } catch (error) {
+    console.error("Error:", error);
+    showMessage("Error sending letter. Please try again.", "error");
+  } finally {
+    sendBtn.disabled = false;
+    sendBtn.innerHTML = "Send Letter";
+  }
+}
+
+async function loadFirebaseLetters() {
+  try {
+    const q = query(collection(db, "letters"), orderBy("timestamp", "desc"));
+    const snapshot = await getDocs(q);
+    
+    firebaseLetters = [];
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      firebaseLetters.push({
+        id: doc.id,
+        text: data.content,
+        from: data.from,
+        date: data.createdAt?.toDate?.() ? 
+          formatDate(data.createdAt.toDate()) : 
+          formatDate(new Date(data.timestamp)),
+        timestamp: data.timestamp || new Date().getTime(),
+        isFirebase: true
+      });
+    });
+
+    updateAllLetters();
+  } catch (error) {
+    console.error("Error loading Firebase letters:", error);
+  }
+}
+
+// ========== DISPLAY FUNCTIONS ==========
+function updateAllLetters() {
+  allLetters = [];
+
+  // Add original letters
+  originalLetters.forEach(letter => {
+    allLetters.push({
+      ...letter,
+      timestamp: new Date(letter.date).getTime(),
+      isFirebase: false
+    });
+  });
+
+  // Add Firebase letters
+  allLetters = allLetters.concat(firebaseLetters);
+
+  // Sort by date (newest first)
+  allLetters.sort((a, b) => b.timestamp - a.timestamp);
+
+  updateSidebar();
+  applyFilter('all');
+}
+
+function updateSidebar() {
+  const months = {};
+  
+  allLetters.forEach(letter => {
+    const month = getMonth(letter.date);
+    months[month] = (months[month] || 0) + 1;
+  });
+
+  sidebar.innerHTML = "";
+  
+  // Order months properly
+  const monthOrder = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const sortedMonths = Object.keys(months).sort((a, b) => monthOrder.indexOf(a) - monthOrder.indexOf(b));
+
+  sortedMonths.forEach(month => {
+    const div = document.createElement("div");
+    div.className = "month";
+    div.innerHTML = `${month} <span>(${months[month]})</span>`;
+    div.onclick = () => filterByMonth(month);
+    sidebar.appendChild(div);
+  });
+}
+
+function filterByMonth(month) {
+  const filtered = allLetters.filter(l => getMonth(l.date) === month);
+  displayLetters(filtered);
+}
+
+function applyFilter(filter) {
+  currentFilter = filter;
+  
+  // Update active tab
+  filterTabs.forEach(tab => {
+    if (tab.dataset.filter === filter) {
+      tab.classList.add("active");
+    } else {
+      tab.classList.remove("active");
+    }
+  });
+
+  let filtered = allLetters;
+  
+  if (filter === "him") {
+    filtered = allLetters.filter(l => l.from === "him");
+  } else if (filter === "her") {
+    filtered = allLetters.filter(l => l.from === "her");
+  }
+
+  displayLetters(filtered);
+}
+
+function displayLetters(list, page = 1) {
+  currentPage = page;
+  content.innerHTML = "";
+
+  if (list.length === 0) {
+    content.innerHTML = '<div style="text-align: center; padding: 60px 20px; color: #999;"><p>No letters yet.</p></div>';
+    return;
+  }
+
+  const start = (page - 1) * LETTERS_PER_PAGE;
+  const end = start + LETTERS_PER_PAGE;
+  const pageLetters = list.slice(start, end);
+
+  pageLetters.forEach(letter => {
+    const card = document.createElement("div");
+    card.className = `letter-card from-${letter.from}`;
+    
+    const fromText = letter.from === "him" ? "From Him" : "From Her";
+    
+    card.innerHTML = `
+      <div class="letter-header">
+        <span class="letter-from from-${letter.from}">${fromText}</span>
+        <span class="letter-date">${letter.date}</span>
+      </div>
+      <div class="letter-preview">${escapeHtml(letter.text.slice(0, 200))}</div>
+      <div class="read-more">Read More</div>
+    `;
+    
+    card.querySelector(".read-more").addEventListener("click", () => showFullLetter(letter));
+    content.appendChild(card);
+  });
+
+  addPagination(list, page);
+}
+
+function addPagination(list, currentPage) {
+  const totalPages = Math.ceil(list.length / LETTERS_PER_PAGE);
+  if (totalPages <= 1) return;
+
+  const nav = document.createElement("div");
+  nav.className = "pagination";
+
+  for (let i = 1; i <= totalPages; i++) {
+    const span = document.createElement("span");
+    span.textContent = i;
+    if (i === currentPage) span.classList.add("active");
+    span.addEventListener("click", () => displayLetters(list, i));
+    nav.appendChild(span);
+  }
+
+  content.appendChild(nav);
+}
+
+function showFullLetter(letter) {
+  document.body.classList.add("reading");
+  
+  const fromText = letter.from === "him" ? "From Him" : "From Her";
+
+  content.innerHTML = `
+    <div class="full-letter">
+      <div class="back">← Back</div>
+      <div class="letter-header">
+        <span class="letter-from from-${letter.from}">${fromText}</span>
+        <span class="letter-date">${letter.date}</span>
+      </div>
+      <div class="full-text">${escapeHtml(letter.text)}</div>
+    </div>
+  `;
+
+  content.querySelector(".back").addEventListener("click", () => {
+    document.body.classList.remove("reading");
+    applyFilter(currentFilter);
+  });
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// ========== EVENT LISTENERS ==========
+writeLetterBtn.addEventListener("click", openModal);
+
+document.querySelector(".modal-close").addEventListener("click", closeModal);
+document.querySelector(".btn-cancel").addEventListener("click", closeModal);
+
+letterForm.addEventListener("submit", submitLetter);
+
+filterTabs.forEach(tab => {
+  tab.addEventListener("click", () => applyFilter(tab.dataset.filter));
+});
+
+// Close modal on outside click
+window.addEventListener("click", (event) => {
+  if (event.target === modal) {
+    closeModal();
+  }
+});
+
+// ========== INITIALIZE ==========
+async function init() {
+  updateAllLetters();
+  await loadFirebaseLetters();
+}
+
+init();
